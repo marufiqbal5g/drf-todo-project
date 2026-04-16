@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Task</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background: #f4f6f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .edit-container {
+            max-width: 500px;
+            margin: 80px auto;
+        }
+
+        .card-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+        }
+
+        .btn {
+            border-radius: 8px;
+        }
+
+        .form-check {
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: #6c757d;
+        }
+
+        a:hover {
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="edit-container">
+
+    <div class="card-box">
+
+        <div class="title">
+            ✏️ Edit Task
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- TITLE -->
+            <label class="text-muted">Task Title</label>
+            <input type="text"
+                   name="title"
+                   value="{{ task.title }}"
+                   class="form-control"
+                   required>
+
+            <!-- COMPLETED CHECKBOX -->
+            <div class="form-check">
+                <input class="form-check-input"
+                       type="checkbox"
+                       name="completed"
+                       id="completed"
+                       {% if task.completed %}checked{% endif %}>
+
+                <label class="form-check-label" for="completed">
+                    Mark as completed
+                </label>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="footer">
+
+                <a href="{% url 'task-list' %}">
+                    ← Back
+                </a>
+
+                <button type="submit" class="btn btn-primary">
+                    Update Task
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

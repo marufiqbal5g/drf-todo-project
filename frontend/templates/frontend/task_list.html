@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To Do</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background: #f4f6f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container-box {
+            max-width: 650px;
+            margin: 60px auto;
+        }
+
+        .card-box {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 18px 20px;
+            font-size: 20px;
+            font-weight: 600;
+            border-bottom: 1px solid #eee;
+        }
+
+        .task-form {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .task-row {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f1f1f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.2s;
+        }
+
+        .task-row:hover {
+            background: #fafafa;
+        }
+
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .task-title {
+            font-size: 15px;
+            color: #333;
+        }
+
+        .task-title strike {
+            color: #999;
+        }
+
+        .btn-sm-custom {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .btn-group-left a {
+            margin-right: 5px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+        }
+
+        .btn {
+            border-radius: 8px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container container-box">
+
+    <div class="card-box">
+
+        <!-- HEADER -->
+        <div class="header">
+            📝 My To Do List
+        </div>
+
+        <!-- CREATE FORM -->
+        <div class="task-form">
+            <form action="{% url 'task-create' %}" method="POST">
+                {% csrf_token %}
+
+                <div class="d-flex">
+                    <input type="text"
+                           name="title"
+                           class="form-control mr-2"
+                           placeholder="Enter a new task...">
+
+                    <button class="btn btn-success">
+                        Add
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- TASK LIST -->
+        {% for task in tasks %}
+
+        <div class="task-row">
+
+            <!-- LEFT SIDE -->
+            <div class="task-left">
+
+                <div class="btn-group-left">
+
+                    <a href="{% url 'task-toggle' task.id %}"
+                       class="btn btn-success btn-sm-custom">
+                        ✔
+                    </a>
+
+                    <a href="{% url 'task-edit' task.id %}"
+                       class="btn btn-warning btn-sm-custom">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'task-delete' task.id %}"
+                       class="btn btn-danger btn-sm-custom">
+                        ✕
+                    </a>
+
+                </div>
+
+                <div class="task-title">
+
+                    {% if task.completed %}
+                        <strike>{{ task.title }}</strike>
+                    {% else %}
+                        {{ task.title }}
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
